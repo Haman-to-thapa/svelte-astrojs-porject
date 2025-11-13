@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Video } from '../types/Video'; 
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://svelte-astrojs-porject.onrender.com/api';
 
 // Create axios instance
 export const api = axios.create({

@@ -8,7 +8,7 @@ const Header: React.FC = () => {
 
   const handleAddSampleVideo = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/videos', {
+      const response = await fetch('https://svelte-astrojs-porject.onrender.com/api/videos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
