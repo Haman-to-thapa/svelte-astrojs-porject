@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, Search, Plus } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -35,7 +36,6 @@ const Header: React.FC = () => {
     e.preventDefault();
 
     if (searchQuery.trim()) {
-      // Navigate to search results page or filter current page
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
@@ -47,51 +47,72 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="flex items-center justify-between px-4 py-3">
-        {/* Left Section */}
-        <div className="flex items-center space-x-4">
-          <Menu className="w-6 h-6 text-gray-600 cursor-pointer" />
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-youtube-red rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">▶</span>
-            </div>
-            <span className="text-xl font-bold text-gray-900">MiniTube</span>
-          </Link>
-        </div>
+    <>
+      <Helmet>
+        <title>MiniTube - YouTube Clone | Watch & Share Videos</title>
+        <meta
+          name="description"
+          content="MiniTube - Free video sharing platform. Watch, upload and share videos with the world. The best YouTube clone experience."
+        />
+        <meta
+          name="keywords"
+          content="videos, youtube clone, video sharing, watch videos, streaming, mini tube"
+        />
+        <meta property="og:title" content="MiniTube - YouTube Clone" />
+        <meta
+          property="og:description"
+          content="Watch, upload and share videos on MiniTube - The best YouTube clone experience"
+        />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://your-frontend-url.onrender.com" />
+      </Helmet>
 
-        {/* Search Bar */}
-        <div className="flex-1 max-w-2xl mx-8">
-          <form onSubmit={handleSearch} className="flex">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Search videos..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:border-blue-500"
-            />
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div className="flex items-center justify-between px-4 py-3">
+          {/* Left Section */}
+          <div className="flex items-center space-x-4">
+            <Menu className="w-6 h-6 text-gray-600 cursor-pointer" />
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-youtube-red rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">▶</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">MiniTube</span>
+            </Link>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex-1 max-w-2xl mx-8">
+            <form onSubmit={handleSearch} className="flex">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Search videos..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:border-blue-500"
+              />
+              <button
+                type="submit"
+                className="bg-gray-100 border border-l-0 border-gray-300 rounded-r-full px-6 hover:bg-gray-200 transition-colors"
+              >
+                <Search className="w-5 h-5 text-gray-600" />
+              </button>
+            </form>
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center space-x-4">
             <button
-              type="submit"
-              className="bg-gray-100 border border-l-0 border-gray-300 rounded-r-full px-6 hover:bg-gray-200 transition-colors"
+              onClick={handleAddSampleVideo}
+              className="flex items-center space-x-2 bg-youtube-red text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
             >
-              <Search className="w-5 h-5 text-gray-600" />
+              <Plus className="w-4 h-4" />
+              <span>Add Sample</span>
             </button>
-          </form>
+          </div>
         </div>
-
-        {/* Right Section */}
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={handleAddSampleVideo}
-            className="flex items-center space-x-2 bg-youtube-red text-white px-4 py-2 rounded-full hover:bg-red-700 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add Sample</span>
-          </button>
-        </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 
