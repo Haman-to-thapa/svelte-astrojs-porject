@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import type { Video } from '../../types/Video';
 import { videoApi } from '../../services/api';
 import { ArrowLeft, Eye, Calendar, Loader } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import SeoHead from '../../components/SEO/SeoHead';
 
 const VideoPlayer: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,10 +72,10 @@ const VideoPlayer: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Helmet>
-          <title>Loading Video - MiniTube</title>
-          <meta name="description" content="Loading video content on MiniTube" />
-        </Helmet>
+        <SeoHead
+          title="Loading Video - MiniTube"
+          description="Loading video content on MiniTube"
+        />
         <div className="flex items-center space-x-3">
           <Loader className="w-6 h-6 animate-spin text-youtube-red" />
           <span className="text-gray-600">Loading video...</span>
@@ -87,10 +87,10 @@ const VideoPlayer: React.FC = () => {
   if (error || !video) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Helmet>
-          <title>Video Not Found - MiniTube</title>
-          <meta name="description" content="The requested video could not be found on MiniTube" />
-        </Helmet>
+        <SeoHead
+          title="Video Not Found - MiniTube"
+          description="The requested video could not be found on MiniTube"
+        />
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Video Not Found</h2>
           <p className="text-gray-600 mb-4">{error || 'The video you are looking for does not exist.'}</p>
@@ -110,49 +110,23 @@ const VideoPlayer: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* SEO Meta Tags */}
-      <Helmet>
-        <title>{video.title} - MiniTube</title>
-        <meta
-          name="description"
-          content={`Watch "${video.title}" on MiniTube. ${video.description.substring(0, 160)}...`}
-        />
-        <meta
-          name="keywords"
-          content={`${video.title}, video, watch, MiniTube, ${video.description.split(' ').slice(0, 10).join(', ')}`}
-        />
-
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={video.title} />
-        <meta property="og:description" content={video.description} />
-        <meta property="og:image" content={video.thumbnailUrl} />
-        <meta property="og:url" content={`https://your-frontend-url.onrender.com/video/${video._id}`} />
-        <meta property="og:type" content="video.other" />
-        <meta property="og:video:url" content={video.videoUrl} />
-        <meta property="og:video:secure_url" content={video.videoUrl} />
-        <meta property="og:video:type" content="video/mp4" />
-        <meta property="og:video:width" content="1280" />
-        <meta property="og:video:height" content="720" />
-
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="player" />
-        <meta name="twitter:title" content={video.title} />
-        <meta name="twitter:description" content={video.description} />
-        <meta name="twitter:image" content={video.thumbnailUrl} />
-        <meta name="twitter:player" content={video.videoUrl} />
-        <meta name="twitter:player:width" content="1280" />
-        <meta name="twitter:player:height" content="720" />
-
-        {/* Canonical URL */}
-        <link rel="canonical" href={`https://your-frontend-url.onrender.com/video/${video._id}`} />
-
-        {/* Structured Data */}
-        {structuredData && (
-          <script type="application/ld+json">
-            {JSON.stringify(structuredData)}
-          </script>
-        )}
-      </Helmet>
+      <SeoHead
+        title={`${video.title} - MiniTube`}
+        description={`Watch "${video.title}" on MiniTube. ${video.description.substring(0, 160)}...`}
+        keywords={`${video.title}, video, watch, MiniTube, ${video.description.split(' ').slice(0, 10).join(', ')}`}
+        canonical={`https://your-frontend-url.onrender.com/video/${video._id}`}
+        structuredData={structuredData}
+        // Add Open Graph and Twitter meta properties
+        ogTitle={video.title}
+        ogDescription={video.description}
+        ogImage={video.thumbnailUrl}
+        ogUrl={`https://your-frontend-url.onrender.com/video/${video._id}`}
+        ogType="video.other"
+        twitterCard="player"
+        twitterTitle={video.title}
+        twitterDescription={video.description}
+        twitterImage={video.thumbnailUrl}
+      />
 
       {/* Navigation */}
       <div className="bg-white shadow-sm border-b border-gray-200">

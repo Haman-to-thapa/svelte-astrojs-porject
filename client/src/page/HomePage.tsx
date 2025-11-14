@@ -4,7 +4,7 @@ import type { Video } from '../types/Video';
 import { videoApi } from '../services/api';
 import VideoCard from '../components/Video/VideoCard';
 import { Loader, RefreshCw } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import SeoHead from '../components/SEO/SeoHead';
 
 const HomePage: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -89,10 +89,10 @@ const HomePage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Helmet>
-          <title>Loading Videos - MiniTube</title>
-          <meta name="description" content="Loading video collection on MiniTube" />
-        </Helmet>
+        <SeoHead
+          title="Loading Videos - MiniTube"
+          description="Loading video collection on MiniTube"
+        />
         <div className="flex items-center space-x-3">
           <Loader className="w-6 h-6 animate-spin text-youtube-red" />
           <span className="text-gray-600">Loading videos...</span>
@@ -112,51 +112,18 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* SEO Meta Tags */}
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta
-          name="keywords"
-          content={
-            searchQuery
-              ? `${searchQuery}, video search, find videos`
-              : "videos, youtube clone, video sharing, watch videos, streaming, mini tube, free videos"
-          }
-        />
-
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content="https://your-frontend-url.onrender.com" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="MiniTube" />
-
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://your-frontend-url.onrender.com" />
-
-        {/* Structured Data */}
-        {structuredData && (
-          <script type="application/ld+json">
-            {JSON.stringify(structuredData)}
-          </script>
-        )}
-
-        {/* Additional SEO Meta Tags */}
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="MiniTube" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        {/* Search-specific meta tags */}
-        {searchQuery && (
-          <meta name="robots" content="noindex, follow" />
-        )}
-      </Helmet>
+      <SeoHead
+        title={pageTitle}
+        description={pageDescription}
+        keywords={
+          searchQuery
+            ? `${searchQuery}, video search, find videos`
+            : "videos, youtube clone, video sharing, watch videos, streaming, mini tube, free videos"
+        }
+        canonical="https://your-frontend-url.onrender.com"
+        structuredData={structuredData}
+        noindex={!!searchQuery} // Noindex for search pages
+      />
 
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">

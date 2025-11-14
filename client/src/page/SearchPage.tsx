@@ -4,7 +4,7 @@ import type { Video } from '../types/Video';
 import { videoApi } from '../services/api';
 import VideoCard from '../components/Video/VideoCard';
 import { Search, Loader } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import SeoHead from '../components/SEO/SeoHead';
 
 const SearchPage: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -84,11 +84,11 @@ const SearchPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Helmet>
-          <title>Searching Videos - MiniTube</title>
-          <meta name="description" content="Searching for videos on MiniTube" />
-          <meta name="robots" content="noindex, nofollow" />
-        </Helmet>
+        <SeoHead
+          title="Searching Videos - MiniTube"
+          description="Searching for videos on MiniTube"
+          noindex={true}
+        />
         <div className="flex items-center space-x-3">
           <Loader className="w-6 h-6 animate-spin text-youtube-red" />
           <span className="text-gray-600">Searching videos...</span>
@@ -108,43 +108,20 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* SEO Meta Tags */}
-      <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-
-        {/* Prevent search pages from being indexed to avoid duplicate content */}
-        <meta name="robots" content="noindex, follow" />
-
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={`https://your-frontend-url.onrender.com/search?q=${encodeURIComponent(query)}`} />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-
-        {/* Canonical URL - Point to home page for search pages to avoid duplicate content */}
-        <link rel="canonical" href="https://your-frontend-url.onrender.com/" />
-
-        {/* Structured Data for Search Results */}
-        {structuredData && (
-          <script type="application/ld+json">
-            {JSON.stringify(structuredData)}
-          </script>
-        )}
-
-        {/* Additional meta tags */}
-        <meta name="author" content="MiniTube" />
-
-        {/* Search-specific meta tags */}
-        {query && (
-          <meta name="keywords" content={`${query}, search results, video search, find ${query} videos`} />
-        )}
-      </Helmet>
+      <SeoHead
+        title={pageTitle}
+        description={pageDescription}
+        keywords={query ? `${query}, search results, video search, find ${query} videos` : 'search, videos, find videos'}
+        canonical="https://your-frontend-url.onrender.com/" // Point to home page to avoid duplicate content
+        structuredData={structuredData}
+        noindex={true} // Prevent search pages from being indexed
+        ogTitle={pageTitle}
+        ogDescription={pageDescription}
+        ogUrl={`https://your-frontend-url.onrender.com/search?q=${encodeURIComponent(query)}`}
+        twitterCard="summary"
+        twitterTitle={pageTitle}
+        twitterDescription={pageDescription}
+      />
 
       <div className="container mx-auto px-4 py-8">
         {/* Search Header */}
@@ -223,7 +200,7 @@ const SearchPage: React.FC = () => {
                 itemType="https://schema.org/ItemList"
                 itemProp="mainEntity"
               >
-                {filteredVideos.map((video,) => (
+                {filteredVideos.map((video) => (
                   <div
                     key={video._id}
                     itemScope

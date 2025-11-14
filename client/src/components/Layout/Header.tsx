@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, Search, Plus } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import SeoHead from '../SEO/SeoHead';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -48,24 +48,15 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>MiniTube - YouTube Clone | Watch & Share Videos</title>
-        <meta
-          name="description"
-          content="MiniTube - Free video sharing platform. Watch, upload and share videos with the world. The best YouTube clone experience."
-        />
-        <meta
-          name="keywords"
-          content="videos, youtube clone, video sharing, watch videos, streaming, mini tube"
-        />
-        <meta property="og:title" content="MiniTube - YouTube Clone" />
-        <meta
-          property="og:description"
-          content="Watch, upload and share videos on MiniTube - The best YouTube clone experience"
-        />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://your-frontend-url.onrender.com" />
-      </Helmet>
+      <SeoHead
+        title="MiniTube - YouTube Clone | Watch & Share Videos"
+        description="MiniTube - Free video sharing platform. Watch, upload and share videos with the world. The best YouTube clone experience."
+        keywords="videos, youtube clone, video sharing, watch videos, streaming, mini tube"
+        canonical="https://your-frontend-url.onrender.com"
+        ogTitle="MiniTube - YouTube Clone"
+        ogDescription="Watch, upload and share videos on MiniTube - The best YouTube clone experience"
+        ogUrl="https://your-frontend-url.onrender.com"
+      />
 
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="flex items-center justify-between px-4 py-3">
